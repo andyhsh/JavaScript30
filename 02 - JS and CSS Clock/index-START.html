@@ -62,12 +62,41 @@
       background:black;
       position: absolute;
       top:50%;
+      /* Default setting is 50% which means MIDDLE of the object
+      Setting 100% means that transform point is set at the rightmost */
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.5s;
     }
 
   </style>
 
   <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minuteHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
 
+    function setDate() {
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const secondsDegrees = ((seconds / 60) * 360) + 90;
+      const minutes = now.getMinutes();
+      const minutesDegrees = ((minutes / 60) * 360) + 90;
+      const hours = now.getHours();
+      const hoursDegrees = ((hours / 12) * 360) + 90;
+      // Select DOM element's inline style using .style
+      // Manipulate css style value directly using .style.transform
+
+      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+      minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;
+      hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+      console.log('seconds', seconds);
+      console.log('minutes', minutes);
+      console.log('hours', hours);
+    }
+
+    // setInterval function calls a function continuously at set time intervals
+    setInterval(setDate, 1000);
 
   </script>
 </body>
