@@ -22,6 +22,22 @@
 
   <style>
 
+    /* set variables to :root, i.e the document, and name variables with -- in front */
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 1px;
+    }
+
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .hl {
+      color: var(--base);
+    }
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -45,6 +61,23 @@
   </style>
 
   <script>
+    //querySelectorAll returns dom nodes in an "array" that does not have all array functions.
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      const suffix = this.dataset.sizing || '';
+      //dataset of dom node pulls out a list of data-attributes assigned to the node
+      console.log(this.dataset);
+      //change global variables by selecting the documentElement, and setProperty of style variables
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+      //Loop through all input dom nodes and attach event listeners to handleUpdate
+      //Mousemove listener to make sure updates are handles whenever mouse is moving in the input
+      inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+      //CHange listener for values that do not involve scrolling i.e the color picker
+      inputs.forEach(input => input.addEventListener('change', handleUpdate));
+
   </script>
 
 </body>
